@@ -1,12 +1,12 @@
-# Set up a local server - Turn an old laptop into a home lab server
+# Transform an old laptop into a home lab server - Part 1
 
 [Back](../../../README.md)
 
-- [Set up a local server - Turn an old laptop into a home lab server](#set-up-a-local-server---turn-an-old-laptop-into-a-home-lab-server)
+- [Transform an old laptop into a home lab server - Part 1](#transform-an-old-laptop-into-a-home-lab-server---part-1)
   - [Introduction](#introduction)
   - [Hardware Specifications](#hardware-specifications)
   - [Software Requirements](#software-requirements)
-  - [Installation Steps](#installation-steps)
+  - [OS Installation Steps](#os-installation-steps)
     - [Overview](#overview)
     - [Prepare Bootstrapping USB](#prepare-bootstrapping-usb)
     - [Install Linux](#install-linux)
@@ -28,6 +28,7 @@
 ## Introduction
 
 - Purposes:
+
   - **Transforming an Old Laptop:**
     - Discover how to repurpose an **aging laptop**, turning it into a local server.
     - This cost-effective solution allows to breathe new life into hardware that might otherwise go unused.
@@ -36,6 +37,9 @@
     - This guide is an excellent opportunity to learn and practice essential skills in Linux administration.
   - **Building a Foundation for Database Projects:**
     - Lay the groundwork for a database project by establishing a robust server environment.
+
+- Part 1:
+  - Intall `Oracle Linux 8`
 
 ---
 
@@ -60,16 +64,17 @@
 
 ## Software Requirements
 
-- Choose of OS: `Oracle Linux 8.8`
+- Choose of OS:
+  - `Oracle Linux 8.8`
 - Reason:
-  - The installation is the first step of a databse project. The OL8 works well with the Oracle Database.
+  - The installation is the first step of a database project. The OL8 works well with the Oracle Database.
   - ref: https://www.oracle.com/database/technologies/databaseappdev-vm.html
 - ISO source:
   - https://yum.oracle.com/oracle-linux-isos.html
 
 ---
 
-## Installation Steps
+## OS Installation Steps
 
 ### Overview
 
@@ -245,7 +250,7 @@
 
 ## Summary
 
-- This is a brief document on how to transform an old laptop into a home lab server! It goes through the step-by-step process of setting up a local server using Linux.
+- This is a brief document on how to install `Oracle Linux OS`
 - Installation Steps:
   - Prepare Bootstrapping USB
   - Install Linux:
@@ -262,4 +267,4 @@
 
 ---
 
-[TOP](#set-up-a-local-server---turn-an-old-laptop-into-a-home-lab-server)
+[TOP](#transform-an-old-laptop-into-a-home-lab-server---part-1)
