@@ -1,0 +1,4 @@
+# OS, software, packages installer/ISO
+*.iso
+*.zip
+*.exe
