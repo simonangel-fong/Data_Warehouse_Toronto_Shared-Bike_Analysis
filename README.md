@@ -11,9 +11,11 @@ A repo of a DBA project.
 
 - Set up a local server
 
-  - [Part1: Install Oracle Linux](./doc/local/ol_install/ol_install.md)
+  - [Part1: Install `Oracle Linux`](./doc/local/ol_install/ol_install.md)
 
-  - Part2: Install Oracle Database in the local server.
+  - [Part2: Create `SSH` Connection](./doc/local/ssh/ssh.md)
+  - Part: Install web server software - `Nginx`
+  - Part: Install Oracle Database in the local server.
 
 - Cloud
   - Alternative: Create an EC2 instance with Oracle Database
@@ -26,7 +28,8 @@ A repo of a DBA project.
 
 - [ ] Local Server
   - [x] OL8
-  - [ ] Oracle DB + SSH
+  - [x] SSH
+  - [ ] Oracle DB
 - [ ] DBA
   - [ ] Listener + Descriptor + Connect SQL Developer
   - [ ] Create PDB
@@ -36,11 +39,10 @@ A repo of a DBA project.
 - [ ] AWS
   - [ ] AWS CLI
   - [ ] Create S3 Bucket
-  - [ ] Test: Upload CSV 
+  - [ ] Test: Upload CSV
   - [ ] CORN: Upload CSV
   - [ ] Create Lambda + API
 - [ ] Data Visualization
-
 
 ---
 
