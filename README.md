@@ -29,6 +29,7 @@ A repo of a DBA project.
 - [ ] Local Server
   - [x] OL8
   - [x] SSH
+  - [ ] Nginx
   - [ ] Oracle DB
 - [ ] DBA
   - [ ] Listener + Descriptor + Connect SQL Developer
