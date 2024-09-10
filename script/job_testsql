@@ -1,0 +1,8 @@
+
+DECLARE
+--    variable script varchar2(5000);
+--    column script new_val SCRIPT_TO_RUN;
+BEGIN
+    DBMS_OUTPUT.put_line('fdfdfd');
+    @test.sql;
+END;

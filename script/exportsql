@@ -1,0 +1,219 @@
+-- SQL script to export data
+-- User = sysdba, container = TORONTO_SHARED_BIKE
+
+alter session set container=toronto_shared_bike;
+
+create or replace directory exp_dir AS '/home/oracle/toronto_shared_bike/exp';
+grant read, write on directory exp_dir to app_admin;
+
+DECLARE
+    v_file      UTL_FILE.FILE_TYPE;
+    v_line      VARCHAR2(32767);
+    v_year_start    VARCHAR2(4) := '2019';
+    v_year_end      VARCHAR2(4) := '2023';
+    v_date_first    number;
+    v_date_end      number;
+BEGIN
+    FOR v_year IN v_year_start..v_year_end LOOP
+        FOR v_month IN 1..12 LOOP
+
+            SELECT 
+                to_number(to_char(to_date(v_month||'.' || to_char(v_year),'MM.YYYY'), 'yyyymmddhh24mi')), 
+                to_number(to_char(LAST_DAY(TO_DATE(v_month||'.' || to_char(v_year),'MM.YYYY')),'yyyymmddhh24mi')) 
+                INTO v_date_first, v_date_end
+            FROM SYS.DUAL;
+            DBMS_OUTPUT.PUT_LINE(v_date_first ||'-'|| v_date_end);
+            -- Open the file for writing
+            v_file := UTL_FILE.FOPEN('EXP_DIR', 'fact_ridership_' || v_year||'_'|| v_month ||'.csv', 'W');
+
+            -- Write the header row
+            UTL_FILE.PUT_LINE(v_file, 'trip_id,trip_duration,start_time_id,end_time_id,start_station_id,end_station_id,bike_id,user_type_id');
+
+            -- Fetch and write the data for the year 2020
+            FOR r IN (
+                SELECT trip_id, trip_duration, start_time_id, end_time_id, start_station_id, end_station_id, bike_id, user_type_id
+                FROM app_admin.fact_ridership
+                WHERE start_time_id > v_date_first
+                AND start_time_id < v_date_end
+                ORDER BY start_time_id
+            ) LOOP
+                v_line := r.trip_id || ',' || r.trip_duration || ',' || r.start_time_id || ',' || r.end_time_id || ',' ||
+                    r.start_station_id || ',' || r.end_station_id || ',' || r.bike_id || ',' || r.user_type_id;
+                UTL_FILE.PUT_LINE(v_file, v_line);
+            END LOOP;
+
+            -- Close the file
+            UTL_FILE.FCLOSE(v_file);
+            
+            DBMS_OUTPUT.PUT_LINE(v_year||'-'||v_month||' exported successfully.');
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE(v_year||' exported successfully.');
+    END LOOP;
+        
+    DBMS_OUTPUT.PUT_LINE('Data exported successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions and close file if open
+        IF UTL_FILE.IS_OPEN(v_file) THEN
+            UTL_FILE.FCLOSE(v_file);
+        END IF;
+        RAISE;
+END;
+/
+-- export dim_time
+DECLARE
+    v_file      UTL_FILE.FILE_TYPE;
+    v_line      VARCHAR2(32767);
+    v_year_start    VARCHAR2(4) := '2019';
+    v_year_end      VARCHAR2(4) := '2023';
+    v_date_first    number;
+    v_date_end      number;
+BEGIN
+    FOR v_year IN v_year_start..v_year_end LOOP
+        FOR v_month IN 1..12 LOOP
+
+            SELECT 
+                to_number(to_char(to_date(v_month||'.' || to_char(v_year),'MM.YYYY'), 'yyyymmddhh24mi')), 
+                to_number(to_char(LAST_DAY(TO_DATE(v_month||'.' || to_char(v_year),'MM.YYYY')),'yyyymmddhh24mi')) 
+                INTO v_date_first, v_date_end
+            FROM SYS.DUAL;
+            DBMS_OUTPUT.PUT_LINE(v_date_first ||'-'|| v_date_end);
+            -- Open the file for writing
+            v_file := UTL_FILE.FOPEN('EXP_DIR', 'dim_time_' || v_year||'_'|| v_month ||'.csv', 'W');
+
+            -- Write the header row
+            UTL_FILE.PUT_LINE(v_file, 'time_id, full_time, year, month, day, hour, minute, quarter, weekday');
+
+            -- Fetch and write the data for the year 2020
+            FOR r IN (
+                SELECT time_id, full_time, year, month, day, hour, minute, quarter, weekday
+                FROM app_admin.dim_time
+                WHERE time_id > v_date_first
+                AND time_id < v_date_end
+                ORDER BY time_id
+            ) LOOP
+                v_line := r.time_id || ',' || r.full_time || ',' || r.year || ',' || r.month || ',' ||
+                    r.day || ',' || r.hour || ',' || r.minute || ',' || r.quarter || ',' || r.weekday;
+                UTL_FILE.PUT_LINE(v_file, v_line);
+            END LOOP;
+
+            -- Close the file
+            UTL_FILE.FCLOSE(v_file);
+            
+            DBMS_OUTPUT.PUT_LINE(v_year||'-'||v_month||' exported successfully.');
+        END LOOP;
+        DBMS_OUTPUT.PUT_LINE(v_year||' exported successfully.');
+    END LOOP;
+        
+    DBMS_OUTPUT.PUT_LINE('Data exported successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions and close file if open
+        IF UTL_FILE.IS_OPEN(v_file) THEN
+            UTL_FILE.FCLOSE(v_file);
+        END IF;
+        RAISE;
+END;
+/
+-- export dim_station
+DECLARE
+    v_file      UTL_FILE.FILE_TYPE;
+    v_line      VARCHAR2(32767);
+BEGIN
+
+    -- Open the file for writing
+    v_file := UTL_FILE.FOPEN('EXP_DIR', 'dim_station.csv', 'W');
+
+    -- Write the header row
+    UTL_FILE.PUT_LINE(v_file, 'station_id,station_name');
+
+    -- Fetch and write the data for the year 2020
+    FOR r IN (
+        SELECT station_id, station_name
+        FROM app_admin.dim_station
+        ORDER BY station_name
+    ) LOOP
+        v_line := r.station_id || ',' || r.station_name;
+        UTL_FILE.PUT_LINE(v_file, v_line);
+        END LOOP;
+
+    -- Close the file
+    UTL_FILE.FCLOSE(v_file);
+    DBMS_OUTPUT.PUT_LINE('Data exported successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions and close file if open
+        IF UTL_FILE.IS_OPEN(v_file) THEN
+            UTL_FILE.FCLOSE(v_file);
+        END IF;
+        RAISE;
+END;
+/
+-- export dim_bike
+DECLARE
+    v_file      UTL_FILE.FILE_TYPE;
+    v_line      VARCHAR2(32767);
+BEGIN
+
+    -- Open the file for writing
+    v_file := UTL_FILE.FOPEN('EXP_DIR', 'dim_bike.csv', 'W');
+
+    -- Write the header row
+    UTL_FILE.PUT_LINE(v_file, 'bike_id');
+
+    -- Fetch and write the data for the year 2020
+    FOR r IN (
+        SELECT bike_id
+        FROM app_admin.dim_bike
+        ORDER BY bike_id
+    ) LOOP
+        v_line := r.bike_id;
+        UTL_FILE.PUT_LINE(v_file, v_line);
+        END LOOP;
+
+    -- Close the file
+    UTL_FILE.FCLOSE(v_file);
+    DBMS_OUTPUT.PUT_LINE('Data exported successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions and close file if open
+        IF UTL_FILE.IS_OPEN(v_file) THEN
+            UTL_FILE.FCLOSE(v_file);
+        END IF;
+        RAISE;
+END;
+/
+-- export dim_user_type
+DECLARE
+    v_file      UTL_FILE.FILE_TYPE;
+    v_line      VARCHAR2(32767);
+BEGIN
+
+    -- Open the file for writing
+    v_file := UTL_FILE.FOPEN('EXP_DIR', 'dim_user_type.csv', 'W');
+
+    -- Write the header row
+    UTL_FILE.PUT_LINE(v_file, 'user_type_id, user_type');
+
+    -- Fetch and write the data for the year 2020
+    FOR r IN (
+        SELECT user_type_id, user_type
+        FROM app_admin.dim_user_type
+        ORDER BY user_type_id
+    ) LOOP
+        v_line := r.user_type_id || ',' || r.user_type;
+        UTL_FILE.PUT_LINE(v_file, v_line);
+        END LOOP;
+
+    -- Close the file
+    UTL_FILE.FCLOSE(v_file);
+    DBMS_OUTPUT.PUT_LINE('Data exported successfully.');
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle exceptions and close file if open
+        IF UTL_FILE.IS_OPEN(v_file) THEN
+            UTL_FILE.FCLOSE(v_file);
+        END IF;
+        RAISE;
+END;
+/
