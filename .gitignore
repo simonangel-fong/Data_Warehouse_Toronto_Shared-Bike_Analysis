@@ -2,3 +2,5 @@
 *.iso
 *.zip
 *.exe
+
+data/

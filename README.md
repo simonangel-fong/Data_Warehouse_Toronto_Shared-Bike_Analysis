@@ -7,44 +7,27 @@ A repo of a DBA project.
 
 ---
 
-## Documentation
+## Data Warehouse Design
 
-- Set up a local server
+![diagram](./doc/data_warehouse/diagram.png)
 
-  - [Part1: Install `Oracle Linux`](./doc/local/ol_install/ol_install.md)
-
-  - [Part2: Create `SSH` Connection](./doc/local/ssh/ssh.md)
-  - Part: Install web server software - `Nginx`
-  - Part: Install Oracle Database in the local server.
-
-- Cloud
-  - Alternative: Create an EC2 instance with Oracle Database
+- [Conceptual Design](./doc/data_warehouse/design/conceptual_design/conceptual_design.md)
+- [Logical Design](./doc/data_warehouse/design/logical_design/logical_design.md)
+- [Physical Design](./doc/data_warehouse/design/physical_design/physical_design.md)
+- [ELT Design](./doc/data_warehouse/design/etl_design/etl_design.md)
 
 ---
 
-## Diagram
+## Data Warehouse Implementation
 
-![diagram](./pic/diagram.png)
-
-- [ ] Local Server
-  - [x] OL8
-  - [x] SSH
-  - [ ] Nginx
-  - [ ] Oracle DB
-- [ ] DBA
-  - [ ] Listener + Descriptor + Connect SQL Developer
-  - [ ] Create PDB
-  - [ ] Create User
-  - [ ] Create TB
-  - [ ] Load CSV Data
-- [ ] AWS
-  - [ ] AWS CLI
-  - [ ] Create S3 Bucket
-  - [ ] Test: Upload CSV
-  - [ ] CORN: Upload CSV
-  - [ ] Create Lambda + API
-- [ ] Data Visualization
+- Database Installation (Oracle 19c)
+- Start Schema Creation
+- ELT Creation
 
 ---
+
+## API
+
+- DRF
 
 [TOP](#dba-project-toronto-shared-bike-ridership-analysis)
