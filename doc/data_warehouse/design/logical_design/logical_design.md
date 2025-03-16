@@ -67,22 +67,21 @@ Dimension entities provide descriptive context for analysis, enabling multi-dime
 
 #### Dimension Table: `Time`
 
-| Attribute Name  | Description                    | Data Type |
-| --------------- | ------------------------------ | --------- |
-| `Time_ID`       | Primary key for time records   | Integer   |
-| `Date`          | Date of the trip (YYYY-MM-DD)  | Datetime  |
-| `Year`          | Year of the trip               | Integer   |
-| `Month`         | Month number (1-12)            | Integer   |
-| `Month_Name`    | Month name (e.g., January)     | Varchar   |
-| `Date_of_Month` | Day of the month (1-31)        | Integer   |
-| `Week_of_Year`  | Week number in the year        | Integer   |
-| `Day_of_Week`   | Day number (0-6)               | Integer   |
-| `Weekday`       | Day of the week (e.g., Monday) | Varchar   |
-| `Hour`          | Hour of the day (0-23)         | Integer   |
+| Attribute Name | Description                           | Data Type |
+| -------------- | ------------------------------------- | --------- |
+| `Time_ID`      | Primary key for time records          | Integer   |
+| `Date`         | Date of the trip (YYYY-MM-DD )        | Datetime  |
+| `Year`         | Year of the trip                      | Integer   |
+| `Quarter`      | Quarter Number (1-4)                  | Integer   |
+| `Month`        | Month number (1-12)                   | Integer   |
+| `day`          | Day of the month (1-31)               | Integer   |
+| `Week`         | Week number in the year (1-53)        | Integer   |
+| `Weekday`      | Day of the week (0-6,Sunday-Saturday) | Integer   |
+| `Hour`         | Hour of the day (0-23)                | Integer   |
+| `Minute`       | Minumte of the hour (0-59)            | Integer   |
 
 - **Note**:
-  - Minute attribute omitted as data precision is at the minute level (per Data Profile);
-  - Hoever, finer granularity is not required for analysis.
+  - Retain Minute attribute to keep finer granularity, even though minute level analysis is not required at present.
 
 ---
 

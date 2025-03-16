@@ -1,0 +1,7 @@
+-- Create PDB for Data Warehouse
+SET SERVEROUTPUT ON;
+ALTER SESSION SET CONTAINER = CDB$ROOT;
+
+-- Drop the existing tbsp
+ALTER PLUGGABLE DATABASE toronto_shared_bike CLOSE;
+DROP PLUGGABLE DATABASE toronto_shared_bike INCLUDING DATAFILES;

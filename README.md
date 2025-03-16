@@ -15,14 +15,16 @@ A repo of a DBA project.
 - [Logical Design](./doc/data_warehouse/design/logical_design/logical_design.md)
 - [Physical Design](./doc/data_warehouse/design/physical_design/physical_design.md)
 - [ELT Design](./doc/data_warehouse/design/etl_design/etl_design.md)
+- [Materialized View Design](./doc/data_warehouse/design/mv_design/mv_design.md)
 
 ---
 
 ## Data Warehouse Implementation
 
 - Database Installation (Oracle 19c)
-- Start Schema Creation
-- ELT Creation
+- [Schema Creation](./doc/data_warehouse/implementation/schema/schema.md)
+- [ETL Creation](./doc/data_warehouse/implementation/etl/etl.md)
+- [Materialized View Creation](./doc/data_warehouse/implementation/mv/mv.md)
 
 ---
 
