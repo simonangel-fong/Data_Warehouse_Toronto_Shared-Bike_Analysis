@@ -67,5 +67,5 @@ CREATE TABLE DW_SCHEMA.staging_trip (
   , model               VARCHAR2(50)
 )
 TABLESPACE STAGING_TBSP
-NOLOGGING       -- Reduces redo logging—speeds up bulk INSERT
-PCTFREE 0;      -- Minimizes space waste—staging data is write-once, rarely updated
+NOLOGGING
+PCTFREE 0;
