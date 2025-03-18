@@ -21,7 +21,7 @@ A repo of a DBA project.
 
 ## Data Warehouse Implementation
 
-- Database Installation (Oracle 19c)
+- [Database Installation - Oracle 19c](./doc/data_warehouse/implementation/oracle19c_installation/oracle19c_installation.md)
 - [Schema Creation](./doc/data_warehouse/implementation/schema/schema.md)
 - [ETL Creation](./doc/data_warehouse/implementation/etl/etl.md)
 - [Materialized View Creation](./doc/data_warehouse/implementation/mv/mv.md)

@@ -10,7 +10,7 @@ SELECT *
 FROM DW_SCHEMA.staging_trip
 ORDER BY start_time;
 
-
+--TRUNCATE TABLE DW_SCHEMA.staging_trip;
 -- Query data warehouse table
 SELECT 
     fact_trip_duration                                          AS "Duration"
@@ -33,6 +33,9 @@ JOIN DW_SCHEMA.dim_user_type ustp
 ON f.fact_trip_user_type_id = ustp.dim_user_type_id
 JOIN DW_SCHEMA.dim_bike bk
 ON f.fact_trip_bike_id = bk.dim_bike_id
+WHERE stt.dim_time_year = 2019
+AND stt.dim_time_month = 1
+ORDER BY stt.dim_time_timestamp
 ;
 
 -- Query MV_TIME_TRIP
