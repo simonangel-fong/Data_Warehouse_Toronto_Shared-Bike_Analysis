@@ -1,0 +1,50 @@
+services:
+  oracle19c:
+    image: simonangelfong/oracledb19c:1.0
+    restart: always
+    ports:
+      - 1521:1521
+      - 5500:5500
+    env_file:
+      - path: .env
+        required: true # default
+    environment:
+      - ORACLE_SID=${ORACLE_SID} # sid, otherwise cannot login as sysdba
+      - ORACLE_PDB=${ORACLE_PDB}
+      - ORACLE_PWD=${ORACLE_PWD} # Loaded from secret
+    volumes:
+      - ./setup:/opt/oracle/scripts/setup # script to run after setup
+      - ./startup:/opt/oracle/scripts/startup # script to run after startup
+      - oracledata:/opt/oracle/oradata # persist data
+      - "C:\\Users\\simon\\OneDrive\\Tech\\Github\\DBA_Toronto_Shared-Bike_Ridership\\data:/tmp"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "sqlplus",
+          "-S",
+          "sys/${ORACLE_PWD}@${ORACLE_SID}",
+          "as",
+          "sysdba",
+          "<<<",
+          "exit",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5m
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 8g
+        reservations:
+          memory: 4g
+    # networks:
+    #   - oracle-net
+
+volumes:
+  oracledata:
+# networks:
+#   oracle-net:
+#     driver: bridge
