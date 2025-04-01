@@ -12,3 +12,6 @@ from  (select tablespace_name, round(sum(bytes)/1024/1024 ,2) as free_space
        from dba_data_files
        group by tablespace_name) b
 where a.tablespace_name(+)=b.tablespace_name;
+
+-- Set PDB context
+ALTER SESSION SET CONTAINER = toronto_shared_bike;

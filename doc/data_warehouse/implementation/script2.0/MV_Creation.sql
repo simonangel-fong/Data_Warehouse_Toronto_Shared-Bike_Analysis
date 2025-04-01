@@ -5,8 +5,10 @@ ALTER SESSION SET CONTAINER = toronto_shared_bike;
 -- Create MV_TBSP tablespace
 CREATE TABLESPACE MV_TBSP
 DATAFILE 
-    '/u02/oradata/CDB1/toronto_shared_bike/MV_TBSP01.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
-    , '/u02/oradata/CDB1/toronto_shared_bike/MV_TBSP02.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
+--    '/u02/oradata/CDB1/toronto_shared_bike/MV_TBSP01.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
+--    , '/u02/oradata/CDB1/toronto_shared_bike/MV_TBSP02.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
+    '/opt/oracle/oradata/ORCLCDB/toronto_shared_bike/MV_TBSP01.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
+    , '/opt/oracle/oradata/ORCLCDB/toronto_shared_bike/MV_TBSP02.dbf' SIZE 100M AUTOEXTEND ON NEXT 50M MAXSIZE 2G
 EXTENT MANAGEMENT LOCAL
 SEGMENT SPACE MANAGEMENT AUTO;
 

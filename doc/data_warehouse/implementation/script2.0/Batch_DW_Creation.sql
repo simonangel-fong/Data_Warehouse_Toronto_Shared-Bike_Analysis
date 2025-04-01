@@ -1,7 +1,7 @@
 -- 
-set sqlblanklines on
+set sqlblanklines on;
 
-@CDB_config.sql
+--@CDB_config.sql
 @PDB_Cleanup.sql
 @PDB_Creation.sql
 @TBSP_Creation.sql

@@ -4,6 +4,7 @@ ALTER SESSION SET CONTAINER = toronto_shared_bike;
 
 -- Create directory
 CREATE OR REPLACE DIRECTORY dir_2019 
+--AS '/data/toronto_shared_bike/2019';
 AS '/data/toronto_shared_bike/2019';
 
 -- Grant read permissions

@@ -10,6 +10,11 @@ OR start_time IS NULL
 OR start_station_id IS NULL
 OR end_station_id IS NULL;
 
+-- REMOVE ALL station_id is string "NULL"
+DELETE FROM DW_SCHEMA.staging_trip
+WHERE start_station_id = 'NULL'
+OR end_station_id = 'NULL';
+
 COMMIT;
 
 -- REMOVE_VALID_TYPE
