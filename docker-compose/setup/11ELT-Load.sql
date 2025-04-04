@@ -45,51 +45,44 @@ WHEN NOT MATCHED THEN
 COMMIT;
 
 -- Load dim_station
-DECLARE
-    CURSOR station_cur is
-        SELECT DISTINCT
-            start_station_id        "STATION_ID"
-            , start_station_name    "STATION_NAME"
-        FROM dw_schema.staging_trip
-        WHERE start_station_name != 'NULL'
-        UNION
-        SELECT DISTINCT
-            end_station_id          "STATION_ID"
-            , end_station_name      "STATION_NAME"
-        FROM dw_schema.staging_trip
-        WHERE start_station_name != 'NULL'
-        ORDER BY STATION_ID;
-        
-    v_station_id    NUMBER;
-    v_station_name  VARCHAR2(100);
-    v_count NUMBER := 0;
-BEGIN
-    OPEN station_cur; 
-    LOOP
-        FETCH station_cur INTO v_station_id, v_station_name;
-        EXIT WHEN station_cur%notfound;
-        
-        v_count := 0;
-        SELECT count(*) INTO v_count
-        FROM dw_schema.dim_station
-        WHERE dim_station_id = v_station_id;
-        
-        IF v_count > 0 THEN
-            -- if exist
-            UPDATE dw_schema.dim_station SET
-                dim_station_name = v_station_name
-            WHERE dim_station_id = v_station_id;
-        ELSE
-            INSERT INTO dw_schema.dim_station(dim_station_id, dim_station_name)
-            VALUES (v_station_id, v_station_name);
-        END IF;
-        
-    END LOOP; 
-    CLOSE station_cur;
-    
-    COMMIT;
-END;
-/
+MERGE INTO DW_SCHEMA.dim_station ds
+USING (
+    WITH station_times AS (
+        -- Start station records
+        SELECT 
+            start_station_id AS station_id,
+            start_station_name AS station_name,
+            TO_DATE(start_time, 'MM/DD/YYYY HH24:MI') AS trip_datetime
+        FROM DW_SCHEMA.staging_trip
+        WHERE start_station_id IS NOT NULL AND start_station_name IS NOT NULL
+        UNION ALL
+        -- End station records
+        SELECT 
+            end_station_id AS station_id,
+            end_station_name AS station_name,
+            TO_DATE(end_time, 'MM/DD/YYYY HH24:MI') AS trip_datetime
+        FROM DW_SCHEMA.staging_trip
+        WHERE end_station_id IS NOT NULL AND end_station_name IS NOT NULL
+    ),
+    latest_stations AS (
+        SELECT 
+            station_id,
+            station_name,
+            ROW_NUMBER() OVER (PARTITION BY station_id ORDER BY trip_datetime DESC) AS rn
+        FROM station_times
+    )
+    SELECT 
+        station_id AS dim_station_id,
+        station_name AS dim_station_name
+    FROM latest_stations
+    WHERE rn = 1
+) src
+ON (ds.dim_station_id = src.dim_station_id)
+WHEN MATCHED THEN
+    UPDATE SET ds.dim_station_name = src.dim_station_name
+WHEN NOT MATCHED THEN
+    INSERT (ds.dim_station_id, ds.dim_station_name)
+    VALUES (src.dim_station_id, src.dim_station_name);
 
 -- Merge into dim_bike
 MERGE /*+ APPEND */ INTO DW_SCHEMA.dim_bike tgt

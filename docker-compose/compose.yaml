@@ -1,22 +1,47 @@
+name: toronto-shared-bike
+
 services:
-  oracle19c:
-    image: simonangelfong/oracledb19c:1.0
-    restart: always
-    ports:
-      - 1521:1521
-      - 5500:5500
+  fastapi:
+    container_name: fastapi-container
+    image: simonangelfong/toronto-shared-bike-fastapi-prebuilt:v1.0
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     env_file:
-      - path: .env
-        required: true # default
+      - .env
     environment:
-      - ORACLE_SID=${ORACLE_SID} # sid, otherwise cannot login as sysdba
-      - ORACLE_PDB=${ORACLE_PDB}
-      - ORACLE_PWD=${ORACLE_PWD} # Loaded from secret
+      - ORCLDB_HOST=oracle19c
+      - ORCLDB_PORT=${ORCLDB_PORT}
+      - ORCLDB_SERVICE=${ORCLDB_SERVICE}
+      - ORCLDB_USER=${ORCLDB_USER}
+      - ORCLDB_API_PWD=/run/secrets/orcl_api_pwd
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    networks:
+      - public-net
+      - private-net
+    secrets:
+      - orcl_api_pwd
+    depends_on:
+      oracle19c:
+        condition: service_healthy
+
+  oracle19c:
+    container_name: database-container
+    # image: simonangelfong/oracledb19c:1.0
+    image: simonangelfong/toronto-shared-bike-db-prebuilt:year2019
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - ORACLE_SID=${ORCLDB_SID} # sid, otherwise cannot login as sysdba
+      - ORACLE_PWD=/run/secrets/orcl_sys_pwd
     volumes:
       - ./setup:/opt/oracle/scripts/setup # script to run after setup
       - ./startup:/opt/oracle/scripts/startup # script to run after startup
+      - ../data:/tmp # source data
       - oracledata:/opt/oracle/oradata # persist data
-      - "C:\\Users\\simon\\OneDrive\\Tech\\Github\\DBA_Toronto_Shared-Bike_Ridership\\data:/tmp"
     healthcheck:
       test:
         [
@@ -40,11 +65,23 @@ services:
           memory: 8g
         reservations:
           memory: 4g
-    # networks:
-    #   - oracle-net
+    secrets:
+      - orcl_sys_pwd
+    networks:
+      - private-net
 
 volumes:
   oracledata:
-# networks:
-#   oracle-net:
-#     driver: bridge
+
+networks:
+  public-net:
+    driver: bridge
+  private-net:
+    driver: bridge
+    internal: true
+
+secrets:
+  orcl_api_pwd:
+    file: ./secrets/orcl_api_pwd.txt
+  orcl_sys_pwd:
+    file: ./secrets/orcl_sys_pwd.txt

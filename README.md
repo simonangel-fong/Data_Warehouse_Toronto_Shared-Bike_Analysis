@@ -1,15 +1,10 @@
 # DBA Project: Toronto Shared-Bike Ridership Analysis
 
-A repo of a DBA project.
-
-- ref:
-  - https://github.com/simonangel-fong/R_Bike-Share_Ridership_Analysis
+A repo of a data warehouse project.
 
 ---
 
 ## Data Warehouse Design
-
-![diagram](./doc/data_warehouse/diagram.png)
 
 - [Conceptual Design](./doc/data_warehouse/design/conceptual_design/conceptual_design.md)
 - [Logical Design](./doc/data_warehouse/design/logical_design/logical_design.md)
@@ -28,8 +23,12 @@ A repo of a DBA project.
 
 ---
 
-## API
+## FastAPI
 
-- DRF
+- [Setup Environment](./doc/api/env_setup/env_setup.md)
+- [Connect to local Oracle Database](./doc/api/connect_local_oracledb/connect_local_oracledb.md)
 
-[TOP](#dba-project-toronto-shared-bike-ridership-analysis)
+---
+
+- ref:
+  - https://github.com/simonangel-fong/R_Bike-Share_Ridership_Analysis

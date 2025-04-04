@@ -14,9 +14,8 @@ ALTER TABLE DW_SCHEMA.external_ridership
 DEFAULT DIRECTORY dir_target;
 
 -- confirm
-SELECT *
-FROM DW_SCHEMA.external_ridership
-WHERE ROWNUM < 10;
+SELECT COUNT(*) 
+FROM DW_SCHEMA.external_ridership;
 
 -- Truncate the staging table
 TRUNCATE TABLE DW_SCHEMA.staging_trip;
