@@ -28,6 +28,10 @@ A repo of a data warehouse project.
 - [Setup Environment](./doc/api/env_setup/env_setup.md)
 - [Connect to local Oracle Database](./doc/api/connect_local_oracledb/connect_local_oracledb.md)
 
+## Devops
+
+- [Create Pipeline (Jenkins)](./doc/devops/jenkins/jenkins.md)
+
 ---
 
 - ref:

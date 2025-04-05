@@ -389,7 +389,7 @@ def get_user_segmentation(
 ### Run Application
 
 ```sh
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --port 8000
 ```
 
 ![pic](./pic/connect_oracledb.png)
@@ -400,4 +400,14 @@ uvicorn app.main:app --reload --port 8000
 
 ```sh
 pip freeze > requirements.txt
+```
+
+---
+
+```sh
+docker commit database-container simonangelfong/toronto-shared-bike-db-prebuilt:year2019
+docker push simonangelfong/toronto-shared-bike-db-prebuilt:year2019
+
+docker commit fastapi-container simonangelfong/toronto-shared-bike-fastapi-prebuilt:v1.0
+docker push simonangelfong/toronto-shared-bike-fastapi-prebuilt:v1.0
 ```

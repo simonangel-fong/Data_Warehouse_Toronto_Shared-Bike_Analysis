@@ -8,11 +8,11 @@ WORKDIR /app
 RUN useradd -m -r appuser && chown appuser:appuser /app
 
 # Copy only requirements and install packages
-COPY ./app/requirements.txt .
+COPY ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire app directory
-COPY ./app .
+COPY . .
 
 # Switch to non-root user
 USER appuser
